@@ -9,9 +9,18 @@ body {
   overflow-x: hidden;
   font-family: "Montserrat", sans-serif;
 }
+header {
+  backdrop-filter: blur(2px);
+}
 .btn-nav {
-  @apply text-white uppercase lg:p-2 px-1 py-1 border rounded-xl shadow mx-1 hover:opacity-80 transition-all;
+  @apply uppercase lg:p-2 px-1 py-1 border border-red-500 rounded-xl shadow mx-1 hover:opacity-80 transition-all;
 }
 .btn {
   @apply uppercase p-2 rounded-xl shadow mx-1 hover:opacity-80 transition-all;
+}
+.btn-outline {
+  @apply px-6 py-2 border border-red-500 capitalize text-red-500 hover:bg-red-500 hover:text-white;
+}
+.btn-fill {
+  @apply px-6 py-2 bg-red-500 capitalize text-white border hover:text-red-500 hover:bg-white hover:border-red-500;
 }
