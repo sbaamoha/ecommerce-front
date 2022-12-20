@@ -2,8 +2,17 @@ import Head from "next/head";
 import BannerFooter from "../components/BannerFooter";
 import BannerHero from "../components/BannerHero";
 import BestProducts from "../components/BestProducts";
-
-export default function Home() {
+interface HomeProps {
+  data: {
+    _id: string;
+    title: string;
+    description: string;
+    price: number;
+    category: string;
+    image: string[];
+  }[];
+}
+export default function Home({ data }: HomeProps) {
   return (
     <>
       <Head>
@@ -14,9 +23,16 @@ export default function Home() {
       </Head>
       <main className="px-6 md:px-10 lg:px-12 py-6 flex flex-col gap-20 items-center">
         <BannerHero />
-        <BestProducts />
+        <BestProducts products={data} />
         <BannerFooter />
       </main>
     </>
   );
+}
+export async function getServerSideProps() {
+  const response = await fetch(process.env.NEXT_PUBLIC_BASE_URL + "products");
+  const data = await response.json();
+  return {
+    props: { data },
+  };
 }

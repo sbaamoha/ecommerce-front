@@ -1,6 +1,15 @@
 import Product from "./Product";
-
-export default function BestProducts() {
+interface HomeProps {
+  products: {
+    _id: string;
+    title: string;
+    description: string;
+    price: number;
+    category: string;
+    image: string[];
+  }[];
+}
+export default function BestProducts({ products }: HomeProps) {
   return (
     <section className="capitalize py-6 md:py-12">
       <div className="text-center py-12">
@@ -13,13 +22,9 @@ export default function BestProducts() {
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
         {/* here map in the products */}
-        <Product />
-        <Product />
-        <Product />
-        <Product />
-        <Product />
-        <Product />
-        <Product />
+        {products.map((product) => (
+          <Product key={product._id} product={product} />
+        ))}
       </div>
     </section>
   );

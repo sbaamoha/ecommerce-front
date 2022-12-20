@@ -1,5 +1,5 @@
 {
-  "proxy":"http://localhost:4000/",
+  "proxy": "http://localhost:4000/",
   "name": "ecommerce-nextjs",
   "version": "0.1.0",
   "private": true,
@@ -16,6 +16,7 @@
     "@types/node": "18.11.15",
     "@types/react": "18.0.26",
     "@types/react-dom": "18.0.9",
+    "cookies-next": "^2.1.1",
     "eslint": "8.29.0",
     "eslint-config-next": "13.0.7",
     "next": "13.0.7",

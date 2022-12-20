@@ -3,13 +3,14 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "../redux/reducers/user";
+import { setCookie } from "cookies-next";
 export default function signin() {
   const dispatch = useDispatch();
   let router = useRouter();
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
-  const [username, setUsername] = useState("");
+  const [error, setError] = useState("");
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const request = await fetch(
@@ -23,12 +24,18 @@ export default function signin() {
       }
     );
     const response = await request.json();
-    console.log(response);
-    if (request.ok) {
-      setUsername(response);
-      dispatch(loginUser(response));
-      router.push("/");
+    if (!request.ok) {
+      setError(response);
     }
+    if (request.ok) {
+      dispatch(loginUser(response.username));
+      //localStorage.setItem("username", response.user);
+      setCookie("token", response.token, { maxAge: 1000 * 60 * 60 * 24 });
+      setCookie("username", response.username, { maxAge: 1000 * 60 * 60 * 24 });
+      router.push("/");
+      //localStorage.setItem("token", response.token);
+    }
+    return response;
   };
   return (
     <section className="flex items-center justify-center h-[100vh] ">
@@ -75,6 +82,7 @@ export default function signin() {
             Please choose a password.
           </p> */}
         </div>
+        <div>{error.length > 0 ? error : ""}</div>
         <div className="flex flex-col gap-10">
           <button
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"

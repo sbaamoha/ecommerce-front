@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import { useDispatch } from "react-redux";
 import { loginUser } from "../redux/reducers/user";
+import { setCookie } from "cookies-next";
 
 export default function signin() {
   const dispatch = useDispatch();
@@ -27,10 +28,13 @@ export default function signin() {
     }
     if (request.ok) {
       dispatch(loginUser(response.username));
-      //   localStorage.setItem("username", response.user);
+      setCookie("token", response.token, { maxAge: 60 * 60 * 24 });
+      setCookie("username", response.username, {
+        maxAge: 60 * 60 * 24,
+      });
       router.push("/");
-      localStorage.setItem("token", response.token);
     }
+    return response;
   };
 
   return (

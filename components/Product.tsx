@@ -1,27 +1,32 @@
 import Image from "next/image";
 import Link from "next/link";
-
-export default function Product() {
+interface PageProps {
+  product: {
+    _id: string;
+    title: string;
+    description: string;
+    price: number;
+    category: string;
+    image: string[];
+  };
+}
+export default function Product({ product }: PageProps) {
   return (
     <div className="w-full">
-      <Link href="">
+      <Link href={`/products/${product._id}`}>
         <Image
-          src="/images/earphones_a_1.webp"
-          alt="product name"
+          src={product.image[0]}
+          alt={product.title}
           width={500}
           height={100}
-          className="rounded-lg bg-gray-300"
+          className="rounded bg-gray-300"
         />
       </Link>
       <div className="p-3 shadow-lg rounded-lg">
-        <Link href="">
-          <h2 className="text-3xl font-black">headphones</h2>
+        <Link href={`/products/${product._id}`}>
+          <h2 className="text-3xl font-black">{product.title}</h2>
         </Link>
-        <p className="font-extralight mt-2">$49</p>
-        <p className=" opacity-50">
-          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Esse,
-          similique!
-        </p>
+        <p className="font-extralight mt-2">${product.price}</p>
       </div>
     </div>
   );
