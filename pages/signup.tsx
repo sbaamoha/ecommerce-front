@@ -6,7 +6,7 @@ import { loginUser } from "../redux/reducers/user";
 import { setCookie } from "cookies-next";
 export default function signin() {
   const dispatch = useDispatch();
-  let router = useRouter();
+  const router = useRouter();
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");

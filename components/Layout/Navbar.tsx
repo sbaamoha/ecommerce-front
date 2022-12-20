@@ -9,7 +9,7 @@ export default function Navbar() {
   const [userConnected, setuserConnected] = useState(false);
   useEffect(() => {
     setuserConnected(hasCookie("token") && hasCookie("username"));
-  }, [userConnected]);
+  }, [userConnected, router]);
 
   const username =
     userConnected && JSON.stringify(getCookie("username")).replaceAll('"', "");
@@ -32,6 +32,7 @@ export default function Navbar() {
       deleteCookie("token");
       deleteCookie("username");
       router.push("/");
+      setuserConnected(false);
     }
     return response;
   };

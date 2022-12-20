@@ -15,10 +15,11 @@ export default function BannerFooter() {
       </div>
       <div className="absolute top-0 bottom-0 right-[20%] md:right-[10vw] lg:right-[17vw]">
         <Image
-          src="/images/headphones_a_2.webp"
+          src="/assets/headphones_a_2.webp"
           alt="banner"
           width={300}
           height={100}
+          priority={true}
         />
       </div>
       <div className="text-white text-start capitalize flex flex-col justify-center z-10">

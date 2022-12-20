@@ -20,6 +20,7 @@ export default function BannerHero() {
           alt="banner"
           width={300}
           height={100}
+          priority={true}
         />
       </div>
       <div className="hidden lg:block w-[15vw] absolute bottom-0 right-3 capitalize">
