@@ -62,7 +62,7 @@ export default function Navbar() {
           )}
         </div>
         <div className="w-5 relative">
-          <Link href="/card">
+          <Link href="/cart">
             <BsBag className="text-3xl cursor-pointer" />
             <div className="absolute top-[-15%] right-[-100%] w-6 h-6 bg-red-500 rounded-full text-center text-white">
               0

@@ -15,11 +15,16 @@ interface PageProps {
   };
 }
 export default function Product({ product }: PageProps) {
+  const [error, seterror] = useState("");
   const router = useRouter();
   const [quantity, setQuantity] = useState(1);
 
   const token = JSON.stringify(getCookie("token"));
   const handleAddToCart = async () => {
+    if (!token) {
+      seterror("please Login so you can add to your cart");
+      return;
+    }
     const request = await fetch(process.env.NEXT_PUBLIC_BASE_URL + "cart", {
       method: "POST",
       //mode: "cors",
@@ -30,6 +35,10 @@ export default function Product({ product }: PageProps) {
       },
       body: JSON.stringify({ ...product, quantity }),
     });
+    const response = await request.json();
+    if (!request.ok) {
+      seterror(response);
+    }
     if (request.ok) {
       router.push("/cart");
     }
@@ -38,6 +47,16 @@ export default function Product({ product }: PageProps) {
   const { title, description, price, image, category } = product;
   return (
     <section className="py-24 px-6 md:px-12">
+      {error.length > 0 ? (
+        <h2 className="text-red-500 border-red-500 text-2xl uppercase py-2">
+          {error}{" "}
+          <Link className="underline text-blue-500" href="/signin">
+            login
+          </Link>
+        </h2>
+      ) : (
+        ""
+      )}
       <div className="grid grid-cols-1 md:grid-cols-2">
         <div>
           <Image
@@ -47,37 +66,6 @@ export default function Product({ product }: PageProps) {
             height={500}
             className="bg-gray-100 hover:bg-red-500 cursor-pointer rounded-2xl"
           />
-          {/* <div className="flex gap-2 py-6">
-            <Image
-              src="/images/headphones_a_2.webp"
-              alt="hed"
-              width={100}
-              height={100}
-              className="bg-gray-100 hover:bg-red-500 cursor-pointer rounded-2xl"
-            />
-            <Image
-              src="/images/headphones_a_1.webp"
-              alt="hed"
-              width={100}
-              height={100}
-              className="bg-gray-100 hover:bg-red-500 cursor-pointer rounded-2xl"
-            />
-            <Image
-              src="/images/headphones_a_2.webp"
-              alt="hed"
-              width={100}
-              height={100}
-              className="bg-gray-100 hover:bg-red-500 cursor-pointer rounded-2xl"
-            />
-            <Image
-              src="/images/headphones_a_1.webp"
-              alt="hed"
-              width={100}
-              height={100}
-              className="bg-gray-100 hover:bg-red-500 cursor-pointer rounded-2xl"
-            />
-          </div>
-         */}
         </div>
         <div className="py-6">
           <h2 className="text-4xl font-bold capitalize">{title} </h2>

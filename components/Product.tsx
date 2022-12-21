@@ -1,5 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
+import { useEffect } from "react";
+import AOS from "aos";
+import "aos/dist/aos.css";
 interface PageProps {
   product: {
     _id: string;
@@ -11,8 +14,11 @@ interface PageProps {
   };
 }
 export default function Product({ product }: PageProps) {
+  useEffect(() => {
+    AOS.init();
+  }, []);
   return (
-    <div className="w-full">
+    <div data-aos-delay="100" data-aos="zoom-in-down" className="w-full">
       <Link href={`/products/${product._id}`}>
         <Image
           src={product.image[0]}
