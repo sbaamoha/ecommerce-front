@@ -1,5 +1,8 @@
+import { getCookie } from "cookies-next";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/router";
+import { useState } from "react";
 import { AiFillStar, AiOutlineStar } from "react-icons/ai";
 interface PageProps {
   product: {
@@ -12,6 +15,26 @@ interface PageProps {
   };
 }
 export default function Product({ product }: PageProps) {
+  const router = useRouter();
+  const [quantity, setQuantity] = useState(1);
+
+  const token = JSON.stringify(getCookie("token"));
+  const handleAddToCart = async () => {
+    const request = await fetch(process.env.NEXT_PUBLIC_BASE_URL + "cart", {
+      method: "POST",
+      //mode: "cors",
+      //credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token,
+      },
+      body: JSON.stringify({ ...product, quantity }),
+    });
+    if (request.ok) {
+      router.push("/cart");
+    }
+  };
+
   const { title, description, price, image, category } = product;
   return (
     <section className="py-24 px-6 md:px-12">
@@ -71,22 +94,33 @@ export default function Product({ product }: PageProps) {
           <div className="flex items-center gap-2 py-6 capitalize font-black ">
             <p>quantity:</p>
             <div>
-              <span className="p-2 border cursor-pointer text-red-500">-</span>
-              <span className="p-2 border">0</span>
-              <span className="p-2 border cursor-pointer text-green-500">
+              <span
+                onClick={() =>
+                  setQuantity((prev) => (prev <= 1 ? prev : prev - 1))
+                }
+                className="p-2 border cursor-pointer text-red-500"
+              >
+                -
+              </span>
+              <span className="p-2 border">{quantity} </span>
+              <span
+                onClick={() =>
+                  setQuantity((prev) => (prev > 9 ? prev : prev + 1))
+                }
+                className="p-2 border cursor-pointer text-green-500"
+              >
                 +
               </span>
             </div>
           </div>
           <div className="flex gap-6">
-            <Link href="">
-              <button className="btn-outline transition-all">
-                add to cart
-              </button>
-            </Link>
-            <Link href="">
-              <button className="btn-fill transition-all">buy now</button>
-            </Link>
+            <h3
+              onClick={handleAddToCart}
+              className="btn-outline cursor-pointer transition-all"
+            >
+              add to cart
+            </h3>
+            <h3 className="btn-fill cursor-pointer transition-all">buy now</h3>
           </div>
         </div>
       </div>
