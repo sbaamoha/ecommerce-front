@@ -26,7 +26,8 @@ export default function BannerFooter() {
         <h3 className="font-semibold">beats solo air</h3>
         <h2 className="font-bold text-2xl md:text-4xl mt-2">summer sale</h2>
         <p className="hidden">
-          company that's grown from 270 to 480 employees in the last 12 months.
+          company that&apos;s grown from 270 to 480 employees in the last 12
+          months
         </p>
         <button className="btn my-6 bg-white font-semibold text-red-500">
           shop now
