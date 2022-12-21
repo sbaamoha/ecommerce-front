@@ -22,7 +22,7 @@ interface CartTypes {
 }
 [];
 
-export default function cart() {
+export default function Cart() {
   const [cart, setCart] = useState<CartTypes>();
   //   console.log(response);
   useEffect(() => {

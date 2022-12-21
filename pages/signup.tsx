@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "../redux/reducers/user";
 import { setCookie } from "cookies-next";
-export default function signin() {
+export default function Signin() {
   const dispatch = useDispatch();
   const router = useRouter();
   const [email, setEmail] = useState("");
