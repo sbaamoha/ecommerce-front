@@ -75,10 +75,10 @@ export default function Cart() {
   return (
     <>
       {username ? (
-        <section className="h-[90vh] px-6 md:pl-12  mt-28 flex flex-col lg:flex-row justify-between gap-10">
+        <section className="h-[100vh] px-6 md:pl-12  mt-28 flex flex-col lg:flex-row lg:justify-between gap-10">
           <div className="capitalize">
             {error ? <h2>{error} </h2> : ""}
-            <ul className="flex flex-col md:flex-row justify-between md:gap-28 pb-3 border-b">
+            <ul className="flex md:flex-row justify-between md:gap-28 pb-3 border-b">
               <li>image</li>
               <li>title</li>
               <li>price</li>
@@ -118,11 +118,11 @@ export default function Cart() {
               </div>
             )}
           </div>
-          <div className="shadow-lg p-6  ">
+          <div className="shadow-lg p-6 h-[100%] ">
             <h2 className="text-3xl font-bold uppercase text-center lg:text-left">
               checkout
             </h2>
-            <div className="capitalize h-[70%] "></div>
+            <div className="capitalize h-[40%] md:h-[70%] "></div>
             <p className="capitalize py-3">total: ${cart?.bill} </p>
             <button className="btn-outline">checkout</button>
           </div>
