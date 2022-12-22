@@ -6,17 +6,23 @@ import { BsBag } from "react-icons/bs";
 // component
 export default function Navbar() {
   const router = useRouter();
+  const [cartItems, setCartItems] = useState<string | number>("");
+  const [username, setUsername] = useState<string | boolean>("");
   const [userConnected, setuserConnected] = useState(false);
   useEffect(() => {
+    setCartItems(hasCookie("cart") ? JSON.stringify(getCookie("cart")) : 0);
     setuserConnected(hasCookie("token") && hasCookie("username"));
-  }, [userConnected, router]);
+    setUsername(
+      hasCookie("username") &&
+        JSON.stringify(getCookie("username")).replaceAll('"', "")
+    );
+  }, [userConnected, username, router]);
 
-  const username =
-    userConnected && JSON.stringify(getCookie("username")).replaceAll('"', "");
-  const token = JSON.stringify(getCookie("token"));
+  // const usernme = userConnected && JSON.stringify(getCookie("username")).replaceAll('"', "");
 
   // logout function
   const handleLogout = async () => {
+    const token = JSON.stringify(getCookie("token"));
     const request = await fetch(
       process.env.NEXT_PUBLIC_BASE_URL + "user/logoutall",
       {
@@ -36,6 +42,7 @@ export default function Navbar() {
     }
     return response;
   };
+
   return (
     <header className="bg-transparent text-gray-600 shadow fixed top-0 w-full z-20 px-6 md:px-10 lg:px-12 py-6">
       <nav className="flex justify-between items-center capitalize">
@@ -64,9 +71,9 @@ export default function Navbar() {
         <div className="w-5 relative">
           <Link href="/cart">
             <BsBag className="text-3xl cursor-pointer" />
-            <div className="absolute top-[-15%] right-[-100%] w-6 h-6 bg-red-500 rounded-full text-center text-white">
-              0
-            </div>
+            <span className="absolute top-[-15%] right-[-100%] w-6 h-6 bg-red-500 rounded-full text-center text-white">
+              {/* {+cartItems || 0} */}0
+            </span>
           </Link>
         </div>
       </nav>

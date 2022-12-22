@@ -28,10 +28,10 @@ export default function Home({ data }: HomeProps) {
     </>
   );
 }
-export async function getServerSideProps() {
+export const getServerSideProps = async () => {
   const response = await fetch(process.env.NEXT_PUBLIC_BASE_URL + "products");
   const data = await response.json();
   return {
     props: { data },
   };
-}
+};
