@@ -73,69 +73,77 @@ export default function Cart() {
     }
   };
   return (
-    <>
-      {username ? (
-        <section className="h-[100vh] px-6 md:pl-12  mt-28 flex flex-col lg:flex-row lg:justify-between gap-10">
-          <div className="capitalize">
-            {error ? <h2>{error} </h2> : ""}
-            <ul className="flex md:flex-row justify-between md:gap-28 pb-3 border-b">
-              <li>image</li>
-              <li>title</li>
-              <li>price</li>
-              <li>quantity</li>
-              <li>delete</li>
-            </ul>
-            {cart?.items.length !== 0 ? (
-              cart?.items.map((item) => (
-                <ul
-                  key={item._id}
-                  className="py-3 flex justify-between md:gap-28 border-b "
-                >
+    <div className="h-[100vh] mt-28 flex flex-col lg:flex-row lg:justify-between lg:gap-10">
+      <div className={username ? `lg:flex-1 my-6` : `hidden`}>
+        <table className="capitalize w-[100%]">
+          {error ? <h2>{error} </h2> : ""}
+          <caption className="font-black mb-3">your cart items</caption>
+          <tr className="border">
+            <th>image</th>
+            <th>title</th>
+            <th>price</th>
+            <th>quantity</th>
+            <th>delete</th>
+          </tr>
+          {cart?.items.length !== 0 ? (
+            cart?.items.map((item) => (
+              <tr key={item._id}>
+                <td>
                   <Image
                     src={item.image[0]}
                     alt={item.title}
                     width={50}
                     height={50}
-                    className="bg-gray-400 rounded-lg"
+                    className="bg-gray-200 rounded-md"
                   />
-                  <h2 className="font-black">{item.title} </h2>
-                  <h2 className="text-red-500 font-bold">${item.price}</h2>
-                  <h2>{item.quantity}</h2>
+                </td>
+                <td className="font-black">{item.title}</td>
+                <td className="text-red-500 font-bold">${item.price}</td>
+                <td>{item.quantity}</td>
+                <td>
                   <button
                     onClick={() => removeFromCartHandler(item.itemId)}
-                    className="btn h-9 bg-red-500 text-white"
+                    className="rounded-full px-2 hover:opacity-75 transition-opacity bg-red-500 text-white"
                   >
                     x
                   </button>
-                </ul>
-              ))
-            ) : (
-              <div className="mt-6">
-                your cart is empty{" "}
-                <Link className="text-blue-500" href="/">
-                  shop now
-                </Link>{" "}
-              </div>
-            )}
-          </div>
-          <div className="shadow-lg p-6 h-[100%] ">
-            <h2 className="text-3xl font-bold uppercase text-center lg:text-left">
-              checkout
-            </h2>
-            <div className="capitalize h-[40%] md:h-[70%] "></div>
-            <p className="capitalize py-3">total: ${cart?.bill} </p>
-            <button className="btn-outline">checkout</button>
-          </div>
-        </section>
-      ) : (
-        <div className="flex flex-col md:flex-row h-[80vh] mt-28 capitalize text-2xl md:text-4xl text-red-500">
-          please login to see your cart{" "}
-          <Link className="text-blue-500 underline" href="/signin">
-            here
-          </Link>
+                </td>
+              </tr>
+            ))
+          ) : (
+            <div className="mt-6">
+              your cart is empty{" "}
+              <Link className="text-blue-500" href="/">
+                shop now
+              </Link>
+            </div>
+          )}
+        </table>
+      </div>
+      <div className={username ? `shadow-lg p-6 h-[50%]` : `hidden`}>
+        <h2 className="text-3xl border-b pb-6 font-bold uppercase text-center lg:text-left">
+          checkout
+        </h2>
+        <div className="capitalize h-[30vh] flex flex-col justify-end items-center">
+          <p className="capitalize py-3 font-bold ">
+            total: <p className="text-red-500">${cart?.bill}</p>
+          </p>
+          <button className="btn-outline">checkout</button>
         </div>
-      )}
-    </>
+      </div>
+      <div
+        className={
+          !username
+            ? `flex flex-col md:flex-row h-[80vh] mt-28 capitalize text-2xl md:text-4xl text-red-500`
+            : `hidden`
+        }
+      >
+        please login to see your cart{" "}
+        <Link className="text-blue-500 underline px-2" href="/signin">
+          here
+        </Link>
+      </div>
+    </div>
   );
 }
 // export async function getServerSideProps() {
