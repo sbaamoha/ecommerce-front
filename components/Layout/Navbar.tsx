@@ -6,17 +6,17 @@ import { BsBag } from "react-icons/bs";
 // component
 export default function Navbar() {
   const router = useRouter();
-  const [cartItems, setCartItems] = useState<string | number>("");
+  const [cartItems, setCartItems] = useState<string>("0");
   const [username, setUsername] = useState<string | boolean>("");
   const [userConnected, setuserConnected] = useState(false);
   useEffect(() => {
-    setCartItems(hasCookie("cart") ? JSON.stringify(getCookie("cart")) : 0);
+    setCartItems(hasCookie("cart") ? JSON.stringify(getCookie("cart")) : "0");
     setuserConnected(hasCookie("token") && hasCookie("username"));
     setUsername(
       hasCookie("username") &&
         JSON.stringify(getCookie("username")).replaceAll('"', "")
     );
-  }, [userConnected, username, router]);
+  }, [userConnected, username, router, cartItems]);
 
   // const usernme = userConnected && JSON.stringify(getCookie("username")).replaceAll('"', "");
 
@@ -71,9 +71,9 @@ export default function Navbar() {
         <div className="w-5 relative">
           <Link href="/cart">
             <BsBag className="text-3xl cursor-pointer" />
-            <span className="absolute top-[-15%] right-[-100%] w-6 h-6 bg-red-500 rounded-full text-center text-white">
-              {/* {+cartItems || 0} */}0
-            </span>
+            <p className="absolute top-[-15%] right-[-100%] w-6 h-6 bg-red-500 rounded-full text-center text-white">
+              {cartItems.replaceAll('"', "")}
+            </p>
           </Link>
         </div>
       </nav>

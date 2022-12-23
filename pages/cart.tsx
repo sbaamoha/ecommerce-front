@@ -69,65 +69,71 @@ export default function Cart() {
       setError(response);
     }
     if (request.ok) {
+      // console.log(response);
+      setCookie("cart", response.items.length);
       router.push("/cart");
     }
   };
   return (
     <div className="h-[100vh] mt-28 flex flex-col lg:flex-row lg:justify-between lg:gap-10">
       <div className={username ? `lg:flex-1 my-6` : `hidden`}>
-        <table className="capitalize w-[100%]">
-          {error ? <h2>{error} </h2> : ""}
-          <caption className="font-black mb-3">your cart items</caption>
-          <tr className="border">
-            <th>image</th>
-            <th>title</th>
-            <th>price</th>
-            <th>quantity</th>
-            <th>delete</th>
-          </tr>
-          {cart?.items.length !== 0 ? (
-            cart?.items.map((item) => (
-              <tr key={item._id}>
-                <td>
-                  <Image
-                    src={item.image[0]}
-                    alt={item.title}
-                    width={50}
-                    height={50}
-                    className="bg-gray-200 rounded-md"
-                  />
-                </td>
-                <td className="font-black">{item.title}</td>
-                <td className="text-red-500 font-bold">${item.price}</td>
-                <td>{item.quantity}</td>
-                <td>
-                  <button
-                    onClick={() => removeFromCartHandler(item.itemId)}
-                    className="rounded-full px-2 hover:opacity-75 transition-opacity bg-red-500 text-white"
-                  >
-                    x
-                  </button>
-                </td>
+        {cart?.items.length !== 0 ? (
+          <table className="capitalize w-[100%]">
+            {error ? <h2>{error} </h2> : ""}
+            <caption className="font-black mb-3">your cart items</caption>
+            <thead>
+              <tr className="border">
+                <th>image</th>
+                <th>title</th>
+                <th>price</th>
+                <th>quantity</th>
+                <th>delete</th>
               </tr>
-            ))
-          ) : (
-            <div className="mt-6">
-              your cart is empty{" "}
-              <Link className="text-blue-500" href="/">
-                shop now
-              </Link>
-            </div>
-          )}
-        </table>
+            </thead>
+            <tbody>
+              {cart?.items.map((item) => (
+                <tr key={item._id}>
+                  <td>
+                    <Image
+                      src={item.image[0]}
+                      alt={item.title}
+                      width={50}
+                      height={50}
+                      className="bg-gray-200 rounded-md"
+                    />
+                  </td>
+                  <td className="font-black">{item.title}</td>
+                  <td className="text-red-500 font-bold">${item.price}</td>
+                  <td>{item.quantity}</td>
+                  <td>
+                    <button
+                      onClick={() => removeFromCartHandler(item.itemId)}
+                      className="rounded-full px-2 hover:opacity-75 transition-opacity bg-red-500 text-white"
+                    >
+                      x
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        ) : (
+          <div className="mt-6 capitalize text-center py-4">
+            your cart is empty{" "}
+            <Link className="text-blue-500" href="/">
+              shop now
+            </Link>
+          </div>
+        )}
       </div>
       <div className={username ? `shadow-lg p-6 h-[50%]` : `hidden`}>
         <h2 className="text-3xl border-b pb-6 font-bold uppercase text-center lg:text-left">
           checkout
         </h2>
         <div className="capitalize h-[30vh] flex flex-col justify-end items-center">
-          <p className="capitalize py-3 font-bold ">
+          <div className="capitalize py-3 font-bold ">
             total: <p className="text-red-500">${cart?.bill}</p>
-          </p>
+          </div>
           <button className="btn-outline">checkout</button>
         </div>
       </div>

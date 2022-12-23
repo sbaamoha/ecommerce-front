@@ -1,4 +1,4 @@
-import { getCookie } from "cookies-next";
+import { getCookie, setCookie } from "cookies-next";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -23,6 +23,7 @@ export default function Product({ product }: PageProps) {
   const handleAddToCart = async () => {
     if (!token) {
       seterror("please Login so you can add to your cart");
+      window.scrollTo(0, 0);
       return;
     }
     const request = await fetch(process.env.NEXT_PUBLIC_BASE_URL + "cart", {
@@ -40,6 +41,8 @@ export default function Product({ product }: PageProps) {
       seterror(response);
     }
     if (request.ok) {
+      console.log(response);
+      setCookie("cart", response.items?.length);
       router.push("/cart");
     }
   };
