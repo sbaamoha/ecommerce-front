@@ -11,7 +11,7 @@ export default function Navbar() {
   const [userConnected, setuserConnected] = useState(false);
   useEffect(() => {
     setCartItems(hasCookie("cart") ? JSON.stringify(getCookie("cart")) : "0");
-    setuserConnected(hasCookie("username"));
+    setuserConnected(hasCookie("username") ? true : false);
     setUsername(
       hasCookie("username") &&
         JSON.stringify(getCookie("username")).replaceAll('"', "")
