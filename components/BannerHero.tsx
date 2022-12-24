@@ -15,13 +15,13 @@ export default function BannerHero() {
         </button>
       </div>
       <div className="absolute top-0 bottom-0 right-[-10vw] md:right-[10vw] lg:right-[17vw]">
-        <Image
-          src="/images/headphones_a_1.webp"
+        {/* <Image
+          src="/assets/headphones_a_1.webp"
           alt="banner"
           width={300}
-          height={100}
+          height={250}
           priority={true}
-        />
+        /> */}
       </div>
       <div className="hidden lg:block w-[15vw] absolute bottom-0 right-3 capitalize">
         <h3 className="text-right font-semibold">description</h3>

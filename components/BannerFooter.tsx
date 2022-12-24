@@ -14,19 +14,20 @@ export default function BannerFooter() {
         <br />
       </div>
       <div className="absolute top-0 bottom-0 right-[20%] md:right-[10vw] lg:right-[17vw]">
-        <Image
+        {/* <Image
           src="/assets/headphones_a_2.webp"
           alt="banner"
           width={300}
-          height={100}
+          height={250}
           priority={true}
-        />
+        /> */}
       </div>
       <div className="text-white text-start capitalize flex flex-col justify-center z-10">
         <h3 className="font-semibold">beats solo air</h3>
         <h2 className="font-bold text-2xl md:text-4xl mt-2">summer sale</h2>
         <p className="hidden">
-          company that's grown from 270 to 480 employees in the last 12 months.
+          company that&apos;s grown from 270 to 480 employees in the last 12
+          months
         </p>
         <button className="btn my-6 bg-white font-semibold text-red-500">
           shop now

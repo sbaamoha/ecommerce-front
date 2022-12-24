@@ -1,0 +1,8 @@
+POST http://localhost:4000/user/login
+credentials: "include"
+Content-Type: "application/json"
+
+{ 
+    "email": "sbaa@gmail.com",
+    "password" : "0664512005"
+}
