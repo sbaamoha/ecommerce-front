@@ -35,9 +35,10 @@ export default function Cart() {
     const token = JSON.stringify(getCookie("token"));
     async function fetchData() {
       const request = await fetch(process.env.NEXT_PUBLIC_BASE_URL + "cart", {
-        headers: {
-          Authorization: token,
-        },
+        credentials: "include",
+        // headers: {
+        //   Authorization: token,
+        // },
       });
       const response = await request.json();
       if (request.ok) {
@@ -52,14 +53,13 @@ export default function Cart() {
   }, [router, cart]);
 
   const removeFromCartHandler = async (id: string) => {
-    const token = JSON.stringify(getCookie("token"));
-
     const request = await fetch(
       process.env.NEXT_PUBLIC_BASE_URL + `cart/${id}`,
       {
         method: "DELETE",
+        credentials: "include",
         headers: {
-          Authorization: token,
+          "Content-Type": "application/json",
         },
       }
     );

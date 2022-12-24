@@ -18,7 +18,10 @@ export default function Signin() {
       process.env.NEXT_PUBLIC_BASE_URL + "user/login",
       {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
         body: JSON.stringify({ email, password }),
       }
     );
@@ -27,11 +30,12 @@ export default function Signin() {
       setError(response);
     }
     if (request.ok) {
-      dispatch(loginUser(response.username));
-      setCookie("token", response.token, { maxAge: 60 * 60 * 24 });
-      setCookie("username", response.username, {
-        maxAge: 60 * 60 * 24,
-      });
+      // dispatch(loginUser(response.username));
+      // setCookie("token", response.token, { maxAge: 60 * 60 * 24 });
+      // setCookie("username", response.username, {
+      //   maxAge: 60 * 60 * 24,
+      // });
+
       router.push("/");
     }
     return response;
