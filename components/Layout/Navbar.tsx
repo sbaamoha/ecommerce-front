@@ -11,7 +11,7 @@ export default function Navbar() {
   const [userConnected, setuserConnected] = useState(false);
   useEffect(() => {
     setCartItems(hasCookie("cart") ? JSON.stringify(getCookie("cart")) : "0");
-    setuserConnected(hasCookie("token") && hasCookie("username"));
+    setuserConnected(hasCookie("username"));
     setUsername(
       hasCookie("username") &&
         JSON.stringify(getCookie("username")).replaceAll('"', "")
@@ -22,14 +22,15 @@ export default function Navbar() {
 
   // logout function
   const handleLogout = async () => {
-    const token = JSON.stringify(getCookie("token"));
+    // const token = JSON.stringify(getCookie("token"));
     const request = await fetch(
       process.env.NEXT_PUBLIC_BASE_URL + "user/logoutall",
       {
         method: "POST",
+        credentials: "include",
         headers: {
           "Content-Type": "application/json",
-          Authorization: token,
+          // Authorization: token,
         },
       }
     );
