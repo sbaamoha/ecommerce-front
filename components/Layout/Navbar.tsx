@@ -27,6 +27,7 @@ export default function Navbar() {
       process.env.NEXT_PUBLIC_BASE_URL + "user/logoutall",
       {
         method: "POST",
+        mode: "no-cors",
         credentials: "include",
         headers: {
           "Content-Type": "application/json",

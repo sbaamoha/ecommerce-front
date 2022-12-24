@@ -18,6 +18,7 @@ export default function Signin() {
       process.env.NEXT_PUBLIC_BASE_URL + "user/login",
       {
         method: "POST",
+        mode: "no-cors",
         credentials: "include",
         headers: {
           "Content-Type": "application/json",
