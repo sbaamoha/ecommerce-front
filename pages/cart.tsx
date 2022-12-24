@@ -36,7 +36,6 @@ export default function Cart() {
     async function fetchData() {
       const request = await fetch(process.env.NEXT_PUBLIC_BASE_URL + "cart", {
         credentials: "include",
-        mode: "no-cors",
         // headers: {
         //   Authorization: token,
         // },

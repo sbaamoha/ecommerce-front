@@ -29,7 +29,6 @@ export default function Product({ product }: PageProps) {
     const request = await fetch(process.env.NEXT_PUBLIC_BASE_URL + "cart", {
       method: "POST",
       //mode: "cors",
-      mode: "no-cors",
       credentials: "include",
       headers: {
         "Content-Type": "application/json",
