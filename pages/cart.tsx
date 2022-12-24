@@ -36,6 +36,7 @@ export default function Cart() {
     async function fetchData() {
       const request = await fetch(process.env.NEXT_PUBLIC_BASE_URL + "cart", {
         credentials: "include",
+        mode: "no-cors",
         // headers: {
         //   Authorization: token,
         // },
@@ -57,6 +58,7 @@ export default function Cart() {
       process.env.NEXT_PUBLIC_BASE_URL + `cart/${id}`,
       {
         method: "DELETE",
+        mode: "no-cors",
         credentials: "include",
         headers: {
           "Content-Type": "application/json",
