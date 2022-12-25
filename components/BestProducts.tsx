@@ -17,7 +17,7 @@ export default function BestProducts({ products }: HomeProps) {
           best seller products
         </h2>
         <p className="opacity-40 mt-2">
-          speaker there are many variations passages
+          speaker there are many variations passages.
         </p>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
