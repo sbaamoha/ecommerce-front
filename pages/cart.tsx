@@ -104,6 +104,7 @@ export default function Cart() {
                       width={50}
                       height={50}
                       className="bg-gray-200 rounded-md"
+                      priority={true}
                     />
                   </td>
                   <td className="font-black">{item.title}</td>
