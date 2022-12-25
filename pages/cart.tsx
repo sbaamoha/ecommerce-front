@@ -50,7 +50,7 @@ export default function Cart() {
       return;
     }
     fetchData();
-  }, [router, cart]);
+  }, [router]);
 
   const removeFromCartHandler = async (id: string) => {
     const token = JSON.stringify(getCookie("token"));
