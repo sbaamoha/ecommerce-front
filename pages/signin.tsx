@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import { useDispatch } from "react-redux";
 import { loginUser } from "../redux/reducers/user";
-import { setCookie } from "cookies-next";
+import { getCookie, setCookie } from "cookies-next";
 
 export default function Signin() {
   const dispatch = useDispatch();
@@ -14,13 +14,16 @@ export default function Signin() {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    const token = JSON.stringify(getCookie("token"));
+
     const request = await fetch(
       process.env.NEXT_PUBLIC_BASE_URL + "user/login",
       {
         method: "POST",
-        credentials: "include",
+        // credentials: "include",
         headers: {
           "Content-Type": "application/json",
+          Authorization: token,
         },
         body: JSON.stringify({ email, password }),
       }
@@ -31,10 +34,10 @@ export default function Signin() {
     }
     if (request.ok) {
       // dispatch(loginUser(response.username));
-      // setCookie("token", response.token, { maxAge: 60 * 60 * 24 });
-      // setCookie("username", response.username, {
-      //   maxAge: 60 * 60 * 24,
-      // });
+      setCookie("token", response.token, { maxAge: 60 * 60 * 24 });
+      setCookie("username", response.username, {
+        maxAge: 60 * 60 * 24,
+      });
 
       router.push("/");
     }

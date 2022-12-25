@@ -22,15 +22,15 @@ export default function Navbar() {
 
   // logout function
   const handleLogout = async () => {
-    // const token = JSON.stringify(getCookie("token"));
+    const token = JSON.stringify(getCookie("token"));
     const request = await fetch(
       process.env.NEXT_PUBLIC_BASE_URL + "user/logoutall",
       {
         method: "POST",
-        credentials: "include",
+        // credentials: "include",
         headers: {
           "Content-Type": "application/json",
-          // Authorization: token,
+          Authorization: token,
         },
       }
     );

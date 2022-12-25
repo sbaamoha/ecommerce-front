@@ -29,10 +29,10 @@ export default function Product({ product }: PageProps) {
     const request = await fetch(process.env.NEXT_PUBLIC_BASE_URL + "cart", {
       method: "POST",
       //mode: "cors",
-      credentials: "include",
+      // credentials: "include",
       headers: {
         "Content-Type": "application/json",
-        // Authorization: token,
+        Authorization: token,
       },
       body: JSON.stringify({ _id: product._id, quantity }),
     });
