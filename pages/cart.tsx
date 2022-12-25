@@ -26,6 +26,7 @@ interface CartTypes {
 export default function Cart() {
   const [cart, setCart] = useState<CartTypes>();
   const [error, setError] = useState();
+  // const [cartCookie, setCartCookie] = useState<string>("");
   const [username, setUsername] = useState<string | boolean>();
   const router = useRouter();
   //   console.log(response);
@@ -43,7 +44,8 @@ export default function Cart() {
       const response = await request.json();
       if (request.ok) {
         setCart(response.cart[0]);
-        setCookie("cart", cart ? cart?.items.length : 0);
+        setCookie("cart", response ? response.cart[0].items.length : 0);
+        // setCartCookie(JSON.stringify(getCookie("cart")));
       }
     }
     if (!token) {
@@ -74,7 +76,7 @@ export default function Cart() {
     }
     if (request.ok) {
       // console.log(response);
-      setCookie("cart", response.items.length);
+      setCookie("cart", response ? response.items.length : "0");
       router.push("/cart");
     }
   };

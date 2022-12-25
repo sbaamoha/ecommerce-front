@@ -47,7 +47,7 @@ export default function Navbar() {
   return (
     <header className="bg-transparent text-gray-600 shadow fixed top-0 w-full z-20 px-6 md:px-10 lg:px-12 py-6">
       <nav className="flex justify-between items-center capitalize">
-        <div className="text-2xl lg:text-4xl">
+        <div className="text-lg lg:text-4xl">
           <Link href="/">sba e-commerce</Link>
         </div>
         <div className="flex-1 flex justify-end mr-3">
