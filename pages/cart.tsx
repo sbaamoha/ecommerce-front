@@ -4,6 +4,7 @@ import Image from "next/image";
 
 import Link from "next/link";
 import { useRouter } from "next/router";
+import axiosClient from "../axios/axiosConfig";
 
 interface CartTypes {
   _id: string;
@@ -26,59 +27,28 @@ interface CartTypes {
 export default function Cart() {
   const [cart, setCart] = useState<CartTypes>();
   const [error, setError] = useState();
-  // const [cartCookie, setCartCookie] = useState<string>("");
   const [username, setUsername] = useState<string | boolean>();
-  const router = useRouter();
-  //   console.log(response);
-  useEffect(() => {
-    setUsername(hasCookie("username") && JSON.stringify(getCookie("username")));
 
-    const token = JSON.stringify(getCookie("token"));
+  useEffect(() => {
     async function fetchData() {
-      const request = await fetch(process.env.NEXT_PUBLIC_BASE_URL + "cart", {
-        // credentials: "include",
-        headers: {
-          Authorization: token,
-        },
-      });
-      const response = await request.json();
-      if (request.ok) {
-        setCart(response.cart[0]);
-        setCookie("cart", response ? response.cart[0].items.length : 0);
-        // setCartCookie(JSON.stringify(getCookie("cart")));
-      }
-    }
-    if (!token) {
-      return;
+      axiosClient
+        .get("user/cart")
+        .then((response) => {
+          setCart(response.cart[0]);
+        })
+        .catch((err) => setError(err));
     }
     fetchData();
-  }, [router]);
+  }, []);
 
   const removeFromCartHandler = async (id: string) => {
     const token = JSON.stringify(getCookie("token"));
-
-    const request = await fetch(
-      process.env.NEXT_PUBLIC_BASE_URL + `cart/${id}`,
-      {
-        method: "DELETE",
-        // mode: "no-cors",
-        // credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: token,
-        },
-      }
-    );
-    const response = await request.json();
-
-    if (!request.ok) {
-      setError(response);
-    }
-    if (request.ok) {
-      // console.log(response);
-      setCookie("cart", response ? response.items.length : "0");
-      router.push("/cart");
-    }
+    axiosClient
+      .delete(`cart/${id}`)
+      .then((response) => {
+        // here use context api
+      })
+      .catch((err) => setError(err.response));
   };
   return (
     <div className="h-[100vh] mt-28 flex flex-col lg:flex-row lg:justify-between lg:gap-10">

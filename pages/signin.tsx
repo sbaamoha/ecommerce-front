@@ -1,12 +1,11 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import { useDispatch } from "react-redux";
-import { loginUser } from "../redux/reducers/user";
-import { getCookie, setCookie } from "cookies-next";
+import axiosClient from "../axios/axiosConfig";
+import { useAuth } from "../context/auth";
 
 export default function Signin() {
-  const dispatch = useDispatch();
+  const auth = useAuth();
   let router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -14,34 +13,14 @@ export default function Signin() {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const token = JSON.stringify(getCookie("token"));
 
-    const request = await fetch(
-      process.env.NEXT_PUBLIC_BASE_URL + "user/login",
-      {
-        method: "POST",
-        // credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: token,
-        },
-        body: JSON.stringify({ email, password }),
-      }
-    );
-    const response = await request.json();
-    if (!request.ok) {
-      setError(response);
-    }
-    if (request.ok) {
-      // dispatch(loginUser(response.username));
-      setCookie("token", response.token, { maxAge: 60 * 60 * 24 });
-      setCookie("username", response.username, {
-        maxAge: 60 * 60 * 24,
-      });
-
-      router.push("/");
-    }
-    return response;
+    axiosClient
+      .post("user/login", { email, password })
+      .then((response) => {
+        console.log(response);
+        router.push("/");
+      })
+      .catch((err) => setError(err));
   };
 
   return (

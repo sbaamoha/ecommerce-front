@@ -1,47 +1,21 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { useRouter } from "next/router";
-import { hasCookie, getCookie, deleteCookie } from "cookies-next";
 import { BsBag } from "react-icons/bs";
+import axiosClient from "../../axios/axiosConfig";
 // component
 export default function Navbar() {
-  const router = useRouter();
   const [cartItems, setCartItems] = useState<string>("0");
   const [username, setUsername] = useState<string | boolean>("");
   const [userConnected, setuserConnected] = useState(false);
-  useEffect(() => {
-    setCartItems(hasCookie("cart") ? JSON.stringify(getCookie("cart")) : "0");
-    setuserConnected(hasCookie("username") ? true : false);
-    setUsername(
-      hasCookie("username") &&
-        JSON.stringify(getCookie("username")).replaceAll('"', "")
-    );
-  }, [userConnected, username, router, cartItems]);
-
-  // const usernme = userConnected && JSON.stringify(getCookie("username")).replaceAll('"', "");
 
   // logout function
   const handleLogout = async () => {
-    const token = JSON.stringify(getCookie("token"));
-    const request = await fetch(
-      process.env.NEXT_PUBLIC_BASE_URL + "user/logoutall",
-      {
-        method: "POST",
-        // credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: token,
-        },
-      }
-    );
-    const response = await request.json();
-    if (request.ok) {
-      deleteCookie("token");
-      deleteCookie("username");
-      router.push("/");
-      setuserConnected(false);
-    }
-    return response;
+    axiosClient
+      .post("user/logoutall")
+      .then((response) => {
+        // here use context api
+      })
+      .catch((err) => {});
   };
 
   return (
