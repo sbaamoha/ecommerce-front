@@ -2,10 +2,11 @@ import { useState } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import axiosClient from "../axios/axiosConfig";
-import { useAuth } from "../context/auth";
+import { useAuth } from "../stores/useAuth";
 
 export default function Signin() {
-  const auth = useAuth();
+  // const user = useAuth(state => state.user)
+  const setUser = useAuth((state) => state.setUser);
   let router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -18,6 +19,7 @@ export default function Signin() {
       .post("user/login", { email, password })
       .then((response) => {
         console.log(response);
+        // setUser(response.data)
         router.push("/");
       })
       .catch((err) => setError(err));
