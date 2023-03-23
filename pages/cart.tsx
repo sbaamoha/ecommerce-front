@@ -4,6 +4,9 @@ import Image from "next/image";
 
 import Link from "next/link";
 import { useRouter } from "next/router";
+import axiosClient from "../axios/axiosConfig";
+import { useCart } from "../stores/useCart";
+import { useAuth } from "../stores/useAuth";
 
 interface CartTypes {
   _id: string;
@@ -24,68 +27,20 @@ interface CartTypes {
 [];
 
 export default function Cart() {
-  const [cart, setCart] = useState<CartTypes>();
   const [error, setError] = useState();
-  // const [cartCookie, setCartCookie] = useState<string>("");
-  const [username, setUsername] = useState<string | boolean>();
-  const router = useRouter();
-  //   console.log(response);
-  useEffect(() => {
-    setUsername(hasCookie("username") && JSON.stringify(getCookie("username")));
+  const username = useAuth((state) => state.username);
+  const { cart, removeFromCart, totalBill } = useCart();
+  // const { totalBill } = useCart(state => state.totalBill);
 
-    const token = JSON.stringify(getCookie("token"));
-    async function fetchData() {
-      const request = await fetch(process.env.NEXT_PUBLIC_BASE_URL + "cart", {
-        // credentials: "include",
-        headers: {
-          Authorization: token,
-        },
-      });
-      const response = await request.json();
-      if (request.ok) {
-        setCart(response.cart[0]);
-        setCookie("cart", response ? response.cart[0].items.length : 0);
-        // setCartCookie(JSON.stringify(getCookie("cart")));
-      }
-    }
-    if (!token) {
-      return;
-    }
-    fetchData();
-  }, [router]);
-
-  const removeFromCartHandler = async (id: string) => {
-    const token = JSON.stringify(getCookie("token"));
-
-    const request = await fetch(
-      process.env.NEXT_PUBLIC_BASE_URL + `cart/${id}`,
-      {
-        method: "DELETE",
-        // mode: "no-cors",
-        // credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: token,
-        },
-      }
-    );
-    const response = await request.json();
-
-    if (!request.ok) {
-      setError(response);
-    }
-    if (request.ok) {
-      // console.log(response);
-      setCookie("cart", response ? response.items.length : "0");
-      router.push("/cart");
-    }
+  const removeFromCartHandler = (id: string) => {
+    removeFromCart(id);
   };
   return (
     <div className="h-[100vh] mt-28 flex flex-col lg:flex-row lg:justify-between lg:gap-10">
       <div className={username ? `lg:flex-1 my-6` : `hidden`}>
-        {cart?.items.length !== 0 ? (
+        {cart && cart?.length !== 0 ? (
           <table className="capitalize w-[100%]">
-            {error ? <h2>{error} </h2> : ""}
+            {/* {error ? <h2>{error} </h2> : ""} */}
             <caption className="font-black mb-3">your cart items</caption>
             <thead>
               <tr className="border">
@@ -97,7 +52,7 @@ export default function Cart() {
               </tr>
             </thead>
             <tbody>
-              {cart?.items.map((item) => (
+              {cart?.map((item) => (
                 <tr key={item._id}>
                   <td>
                     <Image
@@ -111,14 +66,14 @@ export default function Cart() {
                   </td>
                   <td className="font-black">{item.title}</td>
                   <td className="text-red-500 font-bold">${item.price}</td>
-                  <td>{item.quantity}</td>
+                  <td>{item.qty}</td>
                   <td>
-                    <button
-                      onClick={() => removeFromCartHandler(item.itemId)}
+                    <a
+                      onClick={() => removeFromCartHandler(item._id)}
                       className="rounded-full px-2 hover:opacity-75 transition-opacity bg-red-500 text-white"
                     >
                       x
-                    </button>
+                    </a>
                   </td>
                 </tr>
               ))}
@@ -139,7 +94,7 @@ export default function Cart() {
         </h2>
         <div className="capitalize h-[30vh] flex flex-col justify-end items-center">
           <div className="capitalize py-3 font-bold ">
-            total: <p className="text-red-500">${cart?.bill}</p>
+            total: <p className="text-red-500">${totalBill} </p>
           </div>
           <button className="btn-outline">checkout</button>
         </div>
@@ -159,15 +114,3 @@ export default function Cart() {
     </div>
   );
 }
-// export async function getServerSideProps() {
-//   //   const token = JSON.stringify(getCookie("token"));
-//   //   console.log(token);
-//   const request = await fetch(process.env.NEXT_PUBLIC_BASE_URL + "cart", {
-//     credentials: "include",
-//     mode: "cors",
-//   });
-//   const response = await request.json();
-//   return {
-//     props: { response },
-//   };
-// }
