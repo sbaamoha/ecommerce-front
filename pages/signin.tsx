@@ -18,7 +18,6 @@ export default function Signin() {
     axiosClient
       .post("user/login", { email, password })
       .then((response) => {
-        console.log(response);
         if (response.data.token !== undefined) {
           setUser(response.data.username, response.data.token);
         }

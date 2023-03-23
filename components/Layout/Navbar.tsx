@@ -1,15 +1,12 @@
 import Link from "next/link";
-import { useEffect, useState } from "react";
 import { BsBag } from "react-icons/bs";
 import axiosClient from "../../axios/axiosConfig";
 import { useAuth } from "../../stores/useAuth";
 import { useCart } from "../../stores/useCart";
-// component
 export default function Navbar() {
   const removeUser = useAuth((state) => state.removeUser);
   const user = useAuth((state) => state.username);
   const cart = useCart((state) => state.cart);
-
   // logout function
   const handleLogout = async () => {
     axiosClient
@@ -27,7 +24,6 @@ export default function Navbar() {
           <Link href="/">sba e-comm</Link>
         </div>
         <div className="flex-1 flex justify-end mr-3">
-          {}
           {user ? (
             <div className="flex items-center gap-2">
               <h1 className="font-bold">{user}</h1>

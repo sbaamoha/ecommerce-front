@@ -6,6 +6,8 @@ import { useState } from "react";
 import { AiFillStar, AiOutlineStar } from "react-icons/ai";
 import { useAuth } from "../../stores/useAuth";
 import { useCart } from "../../stores/useCart";
+import { toast } from "react-toastify";
+
 interface PageProps {
   product: {
     _id: string;
@@ -27,28 +29,10 @@ export default function Product({ product }: PageProps) {
     if (!username) {
       seterror("please Login so you can add to your cart");
       window.scrollTo(0, 0);
+      toast.error("Login Before Add To Cart");
       return;
     }
-
-    addToCart(product);
-    // const request = await fetch(process.env.NEXT_PUBLIC_BASE_URL + "cart", {
-    //   method: "POST",
-    //   //mode: "cors",
-    //   // credentials: "include",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //     Authorization: token,
-    //   },
-    //   body: JSON.stringify({ _id: product._id, quantity }),
-    // });
-    // const response = await request.json();
-    // if (!request.ok) {
-    //   seterror(response);
-    // }
-    // if (request.ok) {
-    //   setCookie("cart", response.items?.length);
-    //   router.push("/cart");
-    // }
+    addToCart({ ...product, qty: quantity });
   };
 
   const { title, description, price, image, category } = product;
@@ -74,7 +58,7 @@ export default function Product({ product }: PageProps) {
             className="bg-gray-100 hover:bg-red-500 cursor-pointer rounded-2xl"
           />
         </div>
-        <div className="py-6">
+        <div className="py-6 px-6">
           <h2 className="text-4xl font-bold capitalize">{title} </h2>
           <div className="flex py-6 items-center">
             {[1, 2, 3, 4].map((i) => (

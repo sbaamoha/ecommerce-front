@@ -29,7 +29,8 @@ interface CartTypes {
 export default function Cart() {
   const [error, setError] = useState();
   const username = useAuth((state) => state.username);
-  const { cart, removeFromCart } = useCart();
+  const { cart, removeFromCart, totalBill } = useCart();
+  // const { totalBill } = useCart(state => state.totalBill);
 
   const removeFromCartHandler = (id: string) => {
     removeFromCart(id);
@@ -93,7 +94,7 @@ export default function Cart() {
         </h2>
         <div className="capitalize h-[30vh] flex flex-col justify-end items-center">
           <div className="capitalize py-3 font-bold ">
-            total: <p className="text-red-500">$999</p>
+            total: <p className="text-red-500">${totalBill} </p>
           </div>
           <button className="btn-outline">checkout</button>
         </div>
