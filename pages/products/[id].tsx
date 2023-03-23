@@ -4,6 +4,8 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { AiFillStar, AiOutlineStar } from "react-icons/ai";
+import { useAuth } from "../../stores/useAuth";
+import { useCart } from "../../stores/useCart";
 interface PageProps {
   product: {
     _id: string;
@@ -15,35 +17,38 @@ interface PageProps {
   };
 }
 export default function Product({ product }: PageProps) {
-  const [error, seterror] = useState("");
   const router = useRouter();
-  const [quantity, setQuantity] = useState(1);
+  const [error, seterror] = useState("");
+  const [quantity, setQuantity] = useState(0);
+  const username = useAuth((state) => state.username);
+  const addToCart = useCart((state) => state.addToCart);
 
-  const token = JSON.stringify(getCookie("token"));
   const handleAddToCart = async () => {
-    if (!token) {
+    if (!username) {
       seterror("please Login so you can add to your cart");
       window.scrollTo(0, 0);
       return;
     }
-    const request = await fetch(process.env.NEXT_PUBLIC_BASE_URL + "cart", {
-      method: "POST",
-      //mode: "cors",
-      // credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: token,
-      },
-      body: JSON.stringify({ _id: product._id, quantity }),
-    });
-    const response = await request.json();
-    if (!request.ok) {
-      seterror(response);
-    }
-    if (request.ok) {
-      setCookie("cart", response.items?.length);
-      router.push("/cart");
-    }
+
+    addToCart(product);
+    // const request = await fetch(process.env.NEXT_PUBLIC_BASE_URL + "cart", {
+    //   method: "POST",
+    //   //mode: "cors",
+    //   // credentials: "include",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //     Authorization: token,
+    //   },
+    //   body: JSON.stringify({ _id: product._id, quantity }),
+    // });
+    // const response = await request.json();
+    // if (!request.ok) {
+    //   seterror(response);
+    // }
+    // if (request.ok) {
+    //   setCookie("cart", response.items?.length);
+    //   router.push("/cart");
+    // }
   };
 
   const { title, description, price, image, category } = product;

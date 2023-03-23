@@ -1,11 +1,7 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
-import Link from "next/link";
-import { useDispatch, useSelector } from "react-redux";
-import { getCookie, setCookie } from "cookies-next";
 import axiosClient from "../axios/axiosConfig";
 export default function Signin() {
-  const dispatch = useDispatch();
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
@@ -17,7 +13,8 @@ export default function Signin() {
       .post("user/signup", { name, email, password })
       .then((response) => {
         console.log(response);
-        router.push("/");
+
+        router.push("/login");
       })
       .catch((err) => setError(err));
   };

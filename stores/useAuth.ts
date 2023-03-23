@@ -1,4 +1,9 @@
-import { getCookie, setCookie } from "cookies-next";
+import {
+  getCookie,
+  deleteCookie,
+  removeCookies,
+  setCookie,
+} from "cookies-next";
 import { create } from "zustand";
 interface IUser {
   username: string;
@@ -6,17 +11,31 @@ interface IUser {
 }
 
 interface IAuth {
-  user: IUser | null;
-  setUser: (user: IUser) => void;
+  username: string | null | boolean;
+  token: string | null | boolean;
+  setUser: (username: string, token: string) => void;
+  removeUser: () => void;
 }
 
 export const useAuth = create<IAuth>()((set) => ({
-  user: getCookie("user") ? JSON.parse(getCookie("user")) : null,
-  setUser: (user) =>
+  username: getCookie("username") || null,
+  token: getCookie("token") || null,
+  setUser: (username, token) =>
     set((state) => {
-      setCookie("user", user);
+      setCookie("username", username);
+      setCookie("token", `Bearer ${token}`);
       return {
-        user,
+        username,
+        token,
+      };
+    }),
+  removeUser: () =>
+    set((state) => {
+      deleteCookie("username");
+      deleteCookie("token");
+      return {
+        username: null,
+        token: null,
       };
     }),
 }));
