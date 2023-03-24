@@ -17,7 +17,6 @@ interface PageProps {
   };
 }
 export default function Product({ product }: PageProps) {
-  const [error, setError] = useState("");
   const { addToCart } = useCart();
   const { username } = useAuth();
   useEffect(() => {
@@ -25,7 +24,7 @@ export default function Product({ product }: PageProps) {
   }, []);
   const handleAddToCart = () => {
     if (username) {
-      addToCart(product);
+      addToCart({ ...product, qty: 1 });
     } else {
       toast.error("Login Before Add To Cart");
     }
