@@ -29,8 +29,8 @@ interface CartTypes {
 export default function Cart() {
   const [error, setError] = useState();
   const username = useAuth((state) => state.username);
-  const { cart, removeFromCart, totalBill } = useCart();
-  // const { totalBill } = useCart(state => state.totalBill);
+  const { cart, removeFromCart } = useCart();
+  const totalBill = useCart((state) => state.totalBill);
 
   const removeFromCartHandler = (id: string) => {
     removeFromCart(id);
