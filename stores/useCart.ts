@@ -14,7 +14,7 @@ export interface Item {
   price: number;
   category: string;
   image: string[];
-  qty?: number;
+  qty: number;
 }
 const totalPrice = (array: Item[]) => {
   const total = array.reduce(
@@ -23,19 +23,16 @@ const totalPrice = (array: Item[]) => {
   );
   return total;
 };
-const cart = getCookie("cart") ? JSON.parse(getCookie("cart")) : [];
+const cart = (): Item[] | [] =>
+  getCookie("cart") ? JSON.parse(JSON.stringify(getCookie("cart"))) : [];
 
 export const useCart = create<ICart>()((set) => ({
-  cart: getCookie("cart") ? JSON.parse(getCookie("cart")) : [],
-  totalBill: totalPrice(cart),
+  cart: cart(),
+  totalBill: totalPrice(cart()),
   addToCart: (item) =>
     set((state) => {
       if (state.cart.length == 0) {
-        if (item.qty) {
-          state.cart = [item];
-        } else {
-          state.cart = [{ ...item, qty: 1 }];
-        }
+        state.cart = [item];
         setCookie("cart", JSON.stringify(state.cart));
         return {
           cart: state.cart,
@@ -48,7 +45,7 @@ export const useCart = create<ICart>()((set) => ({
       if (duplicatedItem !== undefined) {
         const newArr = state.cart.map((currItem) => {
           if (currItem._id === duplicatedItem._id) {
-            currItem.qty += 1;
+            currItem.qty += item.qty;
           }
           return currItem;
         });
@@ -61,8 +58,8 @@ export const useCart = create<ICart>()((set) => ({
       } else {
         setCookie("cart", JSON.stringify([...state.cart, { ...item, qty: 1 }]));
         return {
-          cart: [...state.cart, { ...item, qty: 1 }],
-          totalBill: totalPrice([...state.cart, { ...item, qty: 1 }]),
+          cart: [...state.cart, item],
+          totalBill: totalPrice([...state.cart, item]),
         };
       }
       // setCookie("cart", JSON.stringify([...state.cart, { ...item, qty: 1 }]));
