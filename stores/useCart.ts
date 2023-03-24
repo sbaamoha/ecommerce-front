@@ -17,10 +17,15 @@ export interface Item {
   qty: number;
 }
 const totalPrice = (array: Item[]) => {
-  const total = array.reduce(
-    (acc: number, curr: Item) => acc + curr.price * curr.qty,
-    0
-  );
+  let total;
+  if (array.length < 0) {
+    total = array.reduce(
+      (acc: number, curr: Item) => acc + curr.price * curr.qty,
+      0
+    );
+  } else {
+    total = 0;
+  }
   return total;
 };
 const cart = (): Item[] | [] =>
