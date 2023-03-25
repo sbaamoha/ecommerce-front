@@ -1,5 +1,3 @@
-import { getCookie, hasCookie, setCookie } from "cookies-next";
-import { useEffect, useState } from "react";
 import Image from "next/image";
 
 import Link from "next/link";
