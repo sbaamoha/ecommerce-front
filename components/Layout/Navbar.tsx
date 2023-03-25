@@ -4,6 +4,7 @@ import axiosClient from "../../axios/axiosConfig";
 import { useAuth } from "../../stores/useAuth";
 import { useCart } from "../../stores/useCart";
 import dynamic from "next/dynamic";
+import { toast } from "react-toastify";
 
 function Navbar() {
   const removeUser = useAuth((state) => state.removeUser);
@@ -15,6 +16,7 @@ function Navbar() {
       .post("user/logoutall")
       .then((response) => {
         removeUser();
+        toast.warn("Logged Out");
       })
       .catch((err) => {});
   };
@@ -44,11 +46,11 @@ function Navbar() {
             </div>
           )}
         </div>
-        <div className="w-5 relative">
-          <Link href="/cart">
-            <BsBag className="text-3xl cursor-pointer" />
+        <div className="w-5 relative ">
+          <Link href="/cart" className="hover:opacity-60 transition-all">
+            <BsBag className="text-3xl cursor-pointer " />
             <p className="absolute top-[-15%] right-[-100%] w-6 h-6 bg-red-500 rounded-full text-center text-white">
-              {cart.length}
+              {user ? cart.length : 0}
             </p>
           </Link>
         </div>

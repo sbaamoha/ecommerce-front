@@ -2,7 +2,7 @@ import Image from "next/image";
 
 export default function BannerHero() {
   return (
-    <section className="flex relative bg-gray-400 rounded-lg mt-28 w-full lg:w-[70vw] p-6">
+    <section className="flex relative bg-gray-400 rounded-lg lg:mt-28 w-full lg:w-[70vw] p-6">
       <div className="capitalize">
         <p className="text-lg">beats solo</p>
         <h3 className="text-2xl md:text-4xl font-bold">wireless</h3>

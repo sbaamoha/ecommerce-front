@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import axiosClient from "../axios/axiosConfig";
 import { useAuth } from "../stores/useAuth";
+import { toast } from "react-toastify";
 
 export default function Signin() {
   // const user = useAuth(state => state.user)
@@ -20,6 +21,7 @@ export default function Signin() {
         if (response.data.token !== undefined) {
           setUser(response.data.username, response.data.token);
         }
+        toast.success("Logged in successfully");
         router.push("/");
       })
       .catch((err) => setError(err));

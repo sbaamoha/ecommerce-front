@@ -32,6 +32,7 @@ export default function Product({ product }: PageProps) {
       return;
     }
     addToCart({ ...product, qty: quantity });
+    toast(`${quantity} ${product.title} Items Added To Cart Successfully`);
   };
 
   const { title, description, price, image, category } = product;

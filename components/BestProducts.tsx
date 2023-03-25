@@ -21,7 +21,7 @@ export default function BestProducts({ products }: HomeProps) {
     );
   }, [search, products]);
   return (
-    <section className="capitalize py-6 md:py-12">
+    <section className="capitalize py-6">
       <div className="text-center py-12">
         <h2 className="font-black text-3xl md:text-5xl border-b pb-3 md:pb-8">
           best seller products
@@ -34,10 +34,10 @@ export default function BestProducts({ products }: HomeProps) {
           placeholder="Search"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="w-[90vw] my-6 p-2 border rounded-lg placeholder:text-gray-500"
+          className="w-[90vw] outline-red-400 outline-1 my-6 p-2 border border-red-400 rounded-lg placeholder:text-gray-500"
         />
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-10">
         {/* here map in the products */}
         {searchedData.map((product) => (
           <Product key={product._id} product={product} />

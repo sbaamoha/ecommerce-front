@@ -25,18 +25,15 @@ export default function Product({ product }: PageProps) {
   const handleAddToCart = () => {
     if (username) {
       addToCart({ ...product, qty: 1 });
+      toast.success(`${product.title} Added To Cart Successfully`);
     } else {
       toast.error("Login Before Add To Cart");
     }
   };
 
   return (
-    <div
-      data-aos-delay="100"
-      data-aos="zoom-in-down"
-      className="w-full h-[100%] card"
-    >
-      <Link className="" href={`/products/${product._id}`}>
+    <div data-aos-delay="100" data-aos="zoom-in-down" className="">
+      <Link href={`/products/${product._id}`}>
         <Image
           src={product.image[0]}
           alt={product.title}

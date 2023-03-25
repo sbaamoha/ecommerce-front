@@ -13,10 +13,10 @@ header {
   backdrop-filter: blur(2px);
 }
 .btn-nav {
-  @apply uppercase lg:p-2 px-1 py-1 border border-red-500 rounded-xl shadow mx-1 hover:opacity-80 transition-all;
+  @apply capitalize lg:p-2 px-1 py-1 text-sm border border-red-500 rounded-xl shadow mx-1 hover:opacity-60 transition-all;
 }
 .btn {
-  @apply uppercase p-2 rounded-xl shadow mx-1 hover:opacity-80 transition-all;
+  @apply capitalize p-2 rounded-xl shadow mx-1 hover:opacity-80 transition-all;
 }
 .btn-outline {
   @apply px-6 py-2 border border-red-500 capitalize text-red-500 hover:bg-red-500 hover:text-white;
