@@ -1,11 +1,10 @@
 import axios from "axios";
-import { getCookie } from "cookies-next";
-
+import Cookies from "js-cookie";
 const axiosClient = axios.create({
   baseURL: process.env.NEXT_PUBLIC_BASE_URL,
 });
 axiosClient.interceptors.request.use((config) => {
-  const token = getCookie("token");
+  const token = Cookies.get("token");
   //   if (config.headers) {
   config.headers.Authorization = `Bearer ${token}`;
   //   }
