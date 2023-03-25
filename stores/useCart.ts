@@ -1,5 +1,5 @@
-import { getCookie, setCookie } from "cookies-next";
 import { create } from "zustand";
+import Cookies from "js-cookie";
 interface ICart {
   cart: Item[] | [];
   totalBill: number;
@@ -18,19 +18,22 @@ export interface Item {
 }
 
 const totalPrice = (array: Item[]): number => {
-  let total;
-  if (array.length > 0) {
-    total = array.reduce(
-      (acc: number, curr: Item) => acc + curr.price * curr.qty,
-      0
-    );
-  } else {
-    total = 0;
+  let total = 0;
+  for (let i = 0; i < array.length; i++) {
+    total += array[i].price * array[i].qty;
   }
+  // if (array.length > 0) {
+  //   total = array.reduce(
+  //     (acc: number, curr: Item) => acc + curr.price * curr.qty,
+  //     0
+  //   );
+  // } else {
+  //   total = 0;
+  // }
   return total;
 };
 const cart: () => Item[] | [] = () =>
-  getCookie("cart") ? JSON.parse(JSON.stringify(getCookie("cart"))) : [];
+  Cookies.get("cart") ? JSON.parse(Cookies.get("cart")!) : [];
 
 export const useCart = create<ICart>()((set) => ({
   cart: cart(),
@@ -39,7 +42,7 @@ export const useCart = create<ICart>()((set) => ({
     set((state) => {
       if (state.cart.length == 0) {
         state.cart = [item];
-        setCookie("cart", JSON.stringify(state.cart));
+        Cookies.set("cart", JSON.stringify(state.cart));
         return {
           cart: state.cart,
           totalBill: totalPrice(state.cart),
@@ -55,14 +58,17 @@ export const useCart = create<ICart>()((set) => ({
           }
           return currItem;
         });
-        setCookie("cart", JSON.stringify(newArr));
+        Cookies.set("cart", JSON.stringify(newArr));
 
         return {
           cart: newArr,
           totalBill: totalPrice([...state.cart, duplicatedItem]),
         };
       } else {
-        setCookie("cart", JSON.stringify([...state.cart, { ...item, qty: 1 }]));
+        Cookies.set(
+          "cart",
+          JSON.stringify([...state.cart, { ...item, qty: 1 }])
+        );
         return {
           cart: [...state.cart, item],
           totalBill: totalPrice([...state.cart, item]),
@@ -73,7 +79,7 @@ export const useCart = create<ICart>()((set) => ({
   removeFromCart: (id) =>
     set((state) => {
       const newArr = state.cart.filter((currItem) => currItem._id !== id);
-      setCookie("cart", JSON.stringify(newArr));
+      Cookies.set("cart", JSON.stringify(newArr));
       return {
         cart: newArr,
         totalBill: totalPrice(newArr),

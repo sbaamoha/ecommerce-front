@@ -30,7 +30,6 @@ function Cart() {
   const username = useAuth((state) => state.username);
   const { cart, removeFromCart } = useCart();
   const totalBill = useCart((state) => state.totalBill);
-
   const removeFromCartHandler = (id: string) => {
     removeFromCart(id);
   };
