@@ -3,7 +3,6 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import axiosClient from "../axios/axiosConfig";
 import { useAuth } from "../stores/useAuth";
-import { useCart } from "../stores/useCart";
 
 export default function Signin() {
   // const user = useAuth(state => state.user)

@@ -1,9 +1,4 @@
-import {
-  getCookie,
-  deleteCookie,
-  removeCookies,
-  setCookie,
-} from "cookies-next";
+import Cookies from "js-cookie";
 import { create } from "zustand";
 interface IUser {
   username: string;
@@ -18,12 +13,12 @@ interface IAuth {
 }
 
 export const useAuth = create<IAuth>()((set) => ({
-  username: getCookie("username") || null,
-  token: getCookie("token") || null,
+  username: Cookies.get("username") || null,
+  token: Cookies.get("token") || null,
   setUser: (username, token) =>
     set((state) => {
-      setCookie("username", username);
-      setCookie("token", `Bearer ${token}`);
+      Cookies.set("username", username);
+      Cookies.set("token", `Bearer ${token}`);
       return {
         username,
         token,
@@ -31,8 +26,8 @@ export const useAuth = create<IAuth>()((set) => ({
     }),
   removeUser: () =>
     set((state) => {
-      deleteCookie("username");
-      deleteCookie("token");
+      Cookies.remove("username");
+      Cookies.remove("token");
       return {
         username: null,
         token: null,
