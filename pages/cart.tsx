@@ -1,8 +1,6 @@
 import Image from "next/image";
-
+import { toast } from "react-toastify";
 import Link from "next/link";
-import { useRouter } from "next/router";
-import axiosClient from "../axios/axiosConfig";
 import { useCart } from "../stores/useCart";
 import { useAuth } from "../stores/useAuth";
 import dynamic from "next/dynamic";
@@ -28,8 +26,9 @@ function Cart() {
   const username = useAuth((state) => state.username);
   const { cart, removeFromCart } = useCart();
   const totalBill = useCart((state) => state.totalBill);
-  const removeFromCartHandler = (id: string) => {
+  const removeFromCartHandler = (id: string, title: string) => {
     removeFromCart(id);
+    toast.info(`${title} Item Has Removed From Your Cart`);
   };
   return (
     <div className="h-[100vh] mt-28 flex flex-col lg:flex-row lg:justify-between lg:gap-10">
@@ -64,7 +63,9 @@ function Cart() {
                   <td>{item.qty}</td>
                   <td>
                     <a
-                      onClick={() => removeFromCartHandler(item._id)}
+                      onClick={() =>
+                        removeFromCartHandler(item._id, item.title)
+                      }
                       className="rounded-full px-2 hover:opacity-75 transition-opacity bg-red-500 text-white"
                     >
                       x
