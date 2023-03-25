@@ -3,7 +3,9 @@ import { BsBag } from "react-icons/bs";
 import axiosClient from "../../axios/axiosConfig";
 import { useAuth } from "../../stores/useAuth";
 import { useCart } from "../../stores/useCart";
-export default function Navbar() {
+import dynamic from "next/dynamic";
+
+function Navbar() {
   const removeUser = useAuth((state) => state.removeUser);
   const user = useAuth((state) => state.username);
   const cart = useCart((state) => state.cart);
@@ -54,3 +56,4 @@ export default function Navbar() {
     </header>
   );
 }
+export default dynamic(() => Promise.resolve(Navbar), { ssr: false });

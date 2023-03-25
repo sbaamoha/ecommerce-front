@@ -16,9 +16,10 @@ export interface Item {
   image: string[];
   qty: number;
 }
-const totalPrice = (array: Item[]) => {
+
+const totalPrice = (array: Item[]): number => {
   let total;
-  if (array.length < 0) {
+  if (array.length > 0) {
     total = array.reduce(
       (acc: number, curr: Item) => acc + curr.price * curr.qty,
       0
@@ -28,7 +29,7 @@ const totalPrice = (array: Item[]) => {
   }
   return total;
 };
-const cart = (): Item[] | [] =>
+const cart: () => Item[] | [] = () =>
   getCookie("cart") ? JSON.parse(JSON.stringify(getCookie("cart"))) : [];
 
 export const useCart = create<ICart>()((set) => ({

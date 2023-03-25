@@ -7,7 +7,7 @@ import { useRouter } from "next/router";
 import axiosClient from "../axios/axiosConfig";
 import { useCart } from "../stores/useCart";
 import { useAuth } from "../stores/useAuth";
-
+import dynamic from "next/dynamic";
 interface CartTypes {
   _id: string;
   owner: string;
@@ -26,8 +26,7 @@ interface CartTypes {
 }
 [];
 
-export default function Cart() {
-  const [error, setError] = useState();
+function Cart() {
   const username = useAuth((state) => state.username);
   const { cart, removeFromCart } = useCart();
   const totalBill = useCart((state) => state.totalBill);
@@ -40,7 +39,6 @@ export default function Cart() {
       <div className={username ? `lg:flex-1 my-6` : `hidden`}>
         {cart && cart?.length !== 0 ? (
           <table className="capitalize w-[100%]">
-            {/* {error ? <h2>{error} </h2> : ""} */}
             <caption className="font-black mb-3">your cart items</caption>
             <thead>
               <tr className="border">
@@ -114,3 +112,4 @@ export default function Cart() {
     </div>
   );
 }
+export default dynamic(() => Promise.resolve(Cart), { ssr: false });
