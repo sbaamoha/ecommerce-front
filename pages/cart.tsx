@@ -28,7 +28,7 @@ function Cart() {
   const totalBill = useCart((state) => state.totalBill);
   const removeFromCartHandler = (id: string, title: string) => {
     removeFromCart(id);
-    toast.info(`${title} Item Has Removed From Your Cart`);
+    toast.warning(`${title} Item Has Removed From Your Cart`);
   };
   return (
     <div className="h-[100vh] mt-28 flex flex-col lg:flex-row lg:justify-between lg:gap-10">
